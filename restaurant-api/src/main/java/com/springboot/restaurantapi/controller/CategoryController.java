@@ -2,6 +2,7 @@ package com.springboot.restaurantapi.controller;
 
 import com.springboot.restaurantapi.dto.CategoryDto;
 import com.springboot.restaurantapi.service.category.ICategoryService;
+import jakarta.transaction.SystemException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class CategoryController {
     private final ICategoryService categoryService;
 
     @PostMapping("/add")
-    public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto){
+    public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto) throws SystemException {
         return ResponseEntity.status(CREATED).body(categoryService.addCategory(categoryDto));
     }
 

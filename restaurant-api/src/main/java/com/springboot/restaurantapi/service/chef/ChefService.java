@@ -24,13 +24,17 @@ public class ChefService implements IChefService {
 
     @Override
     public Optional<ChefDto> getChefById(Long id) {
-        return chefRepository.findById(id)                   // Fetch Chef Entity by ID
-                .map(ChefMapper.CHEF_MAPPER::toDto);         // Map to DTO if present
+        return Optional.of(chefRepository.findById(id)
+                .map(ChefMapper.CHEF_MAPPER::toDto)
+                .orElseThrow(() -> new IllegalArgumentException("Chef not found with ID: " + id)));
     }
 
     @Override
     public List<ChefDto> getAllChefs() {
         List<Chef> chefs = chefRepository.findAll();         // Fetch all Chef Entities
+        if (chefs.isEmpty()) {
+            throw new IllegalArgumentException("No chefs found in the database.");
+        }
         return ChefMapper.CHEF_MAPPER.toDtoList(chefs);      // Convert List of Entities to List of DTOs
     }
 }

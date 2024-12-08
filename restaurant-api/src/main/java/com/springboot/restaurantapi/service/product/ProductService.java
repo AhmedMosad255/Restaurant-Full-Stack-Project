@@ -1,7 +1,6 @@
 package com.springboot.restaurantapi.service.product;
 
 import com.springboot.restaurantapi.dto.ProductDto;
-import com.springboot.restaurantapi.exceptions.ProductNotFoundException;
 import com.springboot.restaurantapi.mapper.ProductMapper;
 import com.springboot.restaurantapi.model.Category;
 import com.springboot.restaurantapi.model.Product;
@@ -25,7 +24,7 @@ public class ProductService implements IProductService {
     public ProductDto addProduct(ProductDto productDto) {
         // Retrieve the category from the database using categoryId
         Category category = categoryRepository.findById(productDto.getCategoryId())
-                .orElseThrow(() -> new ProductNotFoundException("Category not found with id: " + productDto.getCategoryId()));
+                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + productDto.getCategoryId()));
 
         // Create a new Product entity using the data from ProductDto
         Product product = new Product();
@@ -52,14 +51,14 @@ public class ProductService implements IProductService {
     @Override
     public ProductDto getProductById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + id));
         return ProductMapper.PRODUCT_MAPPER.toDto(product);
     }
 
     @Override
     public ProductDto updateProduct(ProductDto productDto, Long productId) {
         Product existingProduct = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + productId));
+                .orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + productId));
 
         // Update product details
         existingProduct.setName(productDto.getName());

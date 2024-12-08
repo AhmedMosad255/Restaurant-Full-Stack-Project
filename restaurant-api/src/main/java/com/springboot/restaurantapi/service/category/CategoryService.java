@@ -4,6 +4,7 @@ import com.springboot.restaurantapi.dto.CategoryDto;
 import com.springboot.restaurantapi.mapper.CategoryMapper;
 import com.springboot.restaurantapi.model.Category;
 import com.springboot.restaurantapi.repository.CategoryRepository;
+import jakarta.transaction.SystemException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,13 @@ public class CategoryService implements ICategoryService{
     private final CategoryRepository categoryRepository;
 
     @Override
-    public CategoryDto addCategory(CategoryDto categoryDto) {
+    public CategoryDto addCategory(CategoryDto categoryDto) throws SystemException {
+        if (categoryDto.getId() != null) {
+            throw new SystemException("error.id");
+        }
+        if (categoryDto.getName() == null || categoryDto.getName().isEmpty()) {
+            throw new SystemException("error.name");
+        }
         Category category = CategoryMapper.CATEGORY_MAPPER.toEntity(categoryDto);
         Category savedCategory = categoryRepository.save(category);
         return CategoryMapper.CATEGORY_MAPPER.toDto(savedCategory);

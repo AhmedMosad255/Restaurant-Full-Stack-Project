@@ -12,6 +12,6 @@ spring:
 
   messages:
     basename: i18n/messages
-    local-default:
+    local-default: en
 api:
   prefix: /api/v1
