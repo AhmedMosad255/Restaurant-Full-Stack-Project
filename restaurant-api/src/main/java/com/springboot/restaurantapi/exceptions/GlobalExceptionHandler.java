@@ -15,4 +15,9 @@ public class GlobalExceptionHandler extends RuntimeException{
     public ResponseEntity<ExceptionResponse> handleException(SystemException exception){
         return ResponseEntity.ok(new ExceptionResponse(BAD_REQUEST, BundleTranslatorService.getMessageInEnglishAndArabic(exception.getMessage())));
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ExceptionResponse> handleException(IllegalArgumentException exception){
+        return ResponseEntity.ok(new ExceptionResponse(BAD_REQUEST, BundleTranslatorService.getMessageInEnglishAndArabic(exception.getMessage())));
+    }
 }

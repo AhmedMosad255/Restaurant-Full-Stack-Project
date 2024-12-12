@@ -26,18 +26,14 @@ public class ProductService implements IProductService {
         Category category = categoryRepository.findById(productDto.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + productDto.getCategoryId()));
 
-        // Create a new Product entity using the data from ProductDto
-        Product product = new Product();
-        product.setName(productDto.getName());
-        product.setLogoPath(productDto.getLogoPath());
-        product.setDescription(productDto.getDescription());
-        product.setPrice(productDto.getPrice());
-        product.setCategory(category); // Set the category to the product
+        // Convert ProductDto to Product entity and set the category
+        Product product = ProductMapper.PRODUCT_MAPPER.toEntity(productDto);
+        product.setCategory(category);
 
         // Save the product to the database
         Product savedProduct = productRepository.save(product);
 
-        // Convert the saved product entity back to ProductDto and return
+        // Convert the saved product entity back to ProductDto
         ProductDto savedProductDto = ProductMapper.PRODUCT_MAPPER.toDto(savedProduct);
 
         // Set categoryId in the saved ProductDto
@@ -45,6 +41,8 @@ public class ProductService implements IProductService {
 
         return savedProductDto;
     }
+
+
 
 
 

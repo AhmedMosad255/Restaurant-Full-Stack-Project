@@ -14,6 +14,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("${api.prefix}/category")
 @RequiredArgsConstructor
+//@CrossOrigin("http://localhost:4200")
 public class CategoryController {
 
     private final ICategoryService categoryService;

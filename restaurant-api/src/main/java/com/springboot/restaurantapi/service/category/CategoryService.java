@@ -34,14 +34,14 @@ public class CategoryService implements ICategoryService{
     public CategoryDto getCategoryByName(String name) {
         return categoryRepository.findByName(name)
                 .map(CategoryMapper.CATEGORY_MAPPER::toDto)
-                .orElseThrow(() -> new IllegalArgumentException("Category not found with name : " + name));
+                .orElseThrow(() -> new IllegalArgumentException("error.category.not.found.name"));
     }
 
     @Override
     public CategoryDto getCategoryById(Long id) {
         return categoryRepository.findById(id)
                 .map(CategoryMapper.CATEGORY_MAPPER::toDto)
-                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("error.category.not.found.id"));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class CategoryService implements ICategoryService{
     @Override
     public void deleteCategoryById(Long id) {
         if (!categoryRepository.existsById(id)) {
-            throw new IllegalArgumentException("Category not found with id: " + id);
+            throw new IllegalArgumentException("error.category.not.found.id");
         }
         categoryRepository.deleteById(id);
     }

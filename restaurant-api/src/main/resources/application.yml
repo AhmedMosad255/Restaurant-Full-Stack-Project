@@ -1,17 +1,19 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/restaurant_db
-    username: postgres
-    password: 2100401
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:mysql://localhost:3306/restaurant_db
+    username: root  # Your MySQL username
+    password: 2100401  # Your MySQL password
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update    # Automatically create or update database schema
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect  # Dialect for MySQL 8
     show-sql: true
-
-
   messages:
     basename: i18n/messages
     local-default: en
+
 api:
   prefix: /api/v1
