@@ -46,12 +46,15 @@ public class CategoryService implements ICategoryService{
 
     @Override
     public List<CategoryDto> getAllCategories() {
-        return categoryRepository
-                .findAll()
-                .stream()
+        List<Category> categories = categoryRepository.findAll();
+        if (categories.isEmpty()) {
+            throw new IllegalArgumentException("error.category.not.found"); // Use a message key
+        }
+        return categories.stream()
                 .map(CategoryMapper.CATEGORY_MAPPER::toDto)
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public CategoryDto updateCategory(CategoryDto categoryDto, Long id) {

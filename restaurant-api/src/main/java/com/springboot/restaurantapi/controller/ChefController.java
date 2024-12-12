@@ -26,7 +26,7 @@ public class ChefController {
     public ResponseEntity<ChefDto> getChefById(@PathVariable Long id){
         return ResponseEntity.of(chefService.getChefById(id));
     }
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ChefDto>> getAllChefs() {
         return ResponseEntity.ok(chefService.getAllChefs());
     }
