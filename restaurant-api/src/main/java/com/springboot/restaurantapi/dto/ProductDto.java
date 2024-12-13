@@ -9,5 +9,6 @@ public class ProductDto {
     private String logoPath;
     private String description;
     private double price;
+
     private Long categoryId;
 }

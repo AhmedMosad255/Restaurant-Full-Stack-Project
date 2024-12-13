@@ -6,7 +6,7 @@ import com.springboot.restaurantapi.dto.ProductDto;
 import java.util.List;
 
 public interface IProductService {
-    ProductDto addProduct(ProductDto productDto);
+//    ProductDto addProduct(ProductDto productDto);
 
     ProductDto getProductById(Long id);
 
@@ -15,5 +15,9 @@ public interface IProductService {
     List<ProductDto> getAllProducts();
 
     List<ProductDto> getProductsByCategoryId(Long categoryId);
-    List<ProductDto> searchProducts(String key);
+
+    List<ProductDto> getProductByName(String productName);
+
+    List<ProductDto> getProductByLetters(String letter);
+
 }

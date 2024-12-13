@@ -20,22 +20,22 @@ public class ProductService implements IProductService {
     private final CategoryRepository categoryRepository;
 
 
-    @Override
-    public ProductDto addProduct(ProductDto productDto) {
-        // Retrieve the category from the database using categoryId
-        Category category = categoryRepository.findById(productDto.getCategoryId())
-                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + productDto.getCategoryId()));
-        // Convert ProductDto to Product entity and set the category
-        Product product = ProductMapper.PRODUCT_MAPPER.toEntity(productDto);
-        product.setCategory(category);
-        // Save the product to the database
-        Product savedProduct = productRepository.save(product);
-        // Convert the saved product entity back to ProductDto
-        ProductDto savedProductDto = ProductMapper.PRODUCT_MAPPER.toDto(savedProduct);
-        // Set categoryId in the saved ProductDto
-        savedProductDto.setCategoryId(savedProduct.getCategory().getId());
-        return savedProductDto;
-    }
+//    @Override
+//    public ProductDto addProduct(ProductDto productDto) {
+//        // Retrieve the category from the database using categoryId
+//        Category category = categoryRepository.findById(productDto.getCategoryId())
+//                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + productDto.getCategoryId()));
+//        // Convert ProductDto to Product entity and set the category
+//        Product product = ProductMapper.PRODUCT_MAPPER.toEntity(productDto);
+//        product.setCategory(category);
+//        // Save the product to the database
+//        Product savedProduct = productRepository.save(product);
+//        // Convert the saved product entity back to ProductDto
+//        ProductDto savedProductDto = ProductMapper.PRODUCT_MAPPER.toDto(savedProduct);
+//        // Set categoryId in the saved ProductDto
+//        savedProductDto.setCategoryId(savedProduct.getCategory().getId());
+//        return savedProductDto;
+//    }
 
     @Override
     public ProductDto getProductById(Long id) {
@@ -69,15 +69,20 @@ public class ProductService implements IProductService {
 
     @Override
     public List<ProductDto> getProductsByCategoryId(Long categoryId) {
-        return productRepository.findByCategoryId(categoryId).stream()
-                .map(ProductMapper.PRODUCT_MAPPER::toDto)
-                .collect(Collectors.toList());
+        return ProductMapper.PRODUCT_MAPPER.toDtoList(productRepository.findAllByCategoryId(categoryId));
     }
 
     @Override
-    public List<ProductDto> searchProducts(String key) {
-        return productRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(key, key).stream()
-                .map(ProductMapper.PRODUCT_MAPPER::toDto)
-                .collect(Collectors.toList());
+    public List<ProductDto> getProductByName(String productName) {
+        List<Product> product = productRepository.findByName(productName);
+
+        return ProductMapper.PRODUCT_MAPPER.toDtoList(product);
+    }
+    @Override
+    public List<ProductDto> getProductByLetters(String letter) {
+
+        List<Product> products = productRepository.getProductByLetters(letter);
+
+        return ProductMapper.PRODUCT_MAPPER.toDtoList(products);
     }
 }
